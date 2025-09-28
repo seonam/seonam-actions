@@ -5,7 +5,7 @@ on:
     inputs:
       version-catalog-repository:
         description: 'version catalog repository name'
-        default: 'disdong123/version-catalog'
+        default: 'seonam/version-catalog'
         type: string
         required: true
       version-catalog-ref:
@@ -36,7 +36,7 @@ jobs:
           STATUSES_ENDPOINT: /repos/${{ inputs.version-catalog-repository }}/statuses/${{ inputs.version-catalog-ref }}
           CONTEXT: ${{ github.workflow }} (${{ github.repository }})
           DESCRIPTION: ${{ github.workflow }}
-          GH_TOKEN: ${{ secrets.DISDONG_TOKEN }}
+          GH_TOKEN: ${{ secrets.SEONAM_TOKEN }}
         run: |
           gh api -X POST ${{ env.STATUSES_ENDPOINT }} \
             -F state=pending \
@@ -54,7 +54,7 @@ jobs:
         with:
           repository: ${{ inputs.version-catalog-repository }}
           path: ${{ inputs.version-catalog-repository }}
-          token: ${{ secrets.DISDONG_TOKEN }}
+          token: ${{ secrets.SEONAM_TOKEN }}
           ref: ${{ inputs.version-catalog-ref }}
       - name: Extract version catalog current version
         id: extract-version
@@ -85,8 +85,8 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         env:
-          DISDONG_USERNAME: ${{ secrets.DISDONG_USERNAME }}
-          DISDONG_TOKEN: ${{ secrets.DISDONG_TOKEN }}
+          SEONAM_USERNAME: ${{ secrets.SEONAM_USERNAME }}
+          SEONAM_TOKEN: ${{ secrets.SEONAM_TOKEN }}
         run: ./gradlew clean build -Punit
   success-status-processor:
     if: ${{ always() && contains(join(needs.version-catalog-test.result, ','), 'success') }}
@@ -100,7 +100,7 @@ jobs:
           STATUSES_ENDPOINT: /repos/${{ inputs.version-catalog-repository }}/statuses/${{ inputs.version-catalog-ref }}
           CONTEXT: ${{ github.workflow }} (${{ github.repository }})
           DESCRIPTION: ${{ github.workflow }}
-          GH_TOKEN: ${{ secrets.DISDONG_TOKEN }}
+          GH_TOKEN: ${{ secrets.SEONAM_TOKEN }}
         run: |
           gh api -X POST ${{ env.STATUSES_ENDPOINT }} \
             -F state=success \
@@ -119,7 +119,7 @@ jobs:
           STATUSES_ENDPOINT: /repos/${{ inputs.version-catalog-repository }}/statuses/${{ inputs.version-catalog-ref }}
           CONTEXT: ${{ github.workflow }} (${{ github.repository }})
           DESCRIPTION: ${{ github.workflow }}
-          GH_TOKEN: ${{ secrets.DISDONG_TOKEN }}
+          GH_TOKEN: ${{ secrets.SEONAM_TOKEN }}
         run: |
           gh api -X POST ${{ env.STATUSES_ENDPOINT }} \
             -F state=failure \
