@@ -89,8 +89,8 @@ jobs:
           SEONAM_TOKEN: ${{ secrets.SEONAM_TOKEN }}
         run: ./gradlew clean build -Punit
   success-status-processor:
-    if: ${{ always() && contains(join(needs.version-catalog-test.result, ','), 'success') }}
-    needs: version-catalog-test
+    if: ${{ always() && contains(join(needs.version-catalog-update-tester.result, ','), 'success') }}
+    needs: version-catalog-update-tester
     runs-on: ubuntu-latest
     steps:
       - name: 'Create and send success status to version catalog repository'
@@ -108,8 +108,8 @@ jobs:
             -F context="${{ env.CONTEXT }}" \
             -F target_url=${{ env.TARGET_URL }}
   failure-status-processor:
-    if: ${{ always() && contains(join(needs.version-catalog-test.result, ','), 'failure') }}
-    needs: version-catalog-test
+    if: ${{ always() && contains(join(needs.version-catalog-update-tester.result, ','), 'failure') }}
+    needs: version-catalog-update-tester
     runs-on: ubuntu-latest
     steps:
       - name: 'Create and send failure status to version catalog repository'
