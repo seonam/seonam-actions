@@ -43,7 +43,7 @@ jobs:
             -F description="${{ env.DESCRIPTION }}" \
             -F context="${{ env.CONTEXT }}" \
             -F target_url=${{ env.TARGET_URL }}
-  version-catalog-test:
+  version-catalog-update-tester:
     needs: pending-status-processor
     runs-on: ubuntu-latest
     outputs:
