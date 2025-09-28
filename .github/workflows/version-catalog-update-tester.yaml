@@ -1,4 +1,4 @@
-name: For version catalog test
+name: test version catalog update
 
 on:
   workflow_call:
